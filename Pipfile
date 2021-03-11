@@ -1,0 +1,27 @@
+[[source]]
+url = "https://pypi.org/simple"
+verify_ssl = true
+name = "pypi"
+
+[packages]
+pandas = "*"
+xgboost = "*"
+sklearn = "*"
+tqdm = "*"
+keras = "*"
+tensorflow = "*"
+nltk = "*"
+beautifulsoup4 = "*"
+jupyter = "*"
+jieba = "*"
+bs4 = "*"
+matplotlib = "*"
+torch = "*"
+transformers = "*"
+pysnooper = "*"
+tensorboard = "*"
+
+[dev-packages]
+
+[requires]
+python_version = "3.8"
