@@ -1,7 +1,7 @@
-from transformers import BertTokenizer
+from transformers import *
 from torch.utils.data import DataLoader
 from tqdm import tqdm
-from dset._ch_poem import chpoemdset
+from src.dset._ch_poem import chpoemdset
 
 import tensorflow as tf
 import os

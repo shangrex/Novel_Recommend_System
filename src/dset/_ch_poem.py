@@ -39,7 +39,7 @@ class chpoemdset(Dataset):
 
 		self.one_hot = OneHotEncoder()
 		self.one_hot.fit(self.author)
-		self.train_df, self.test_df = train_test_split(self.data,train_size=0.8, test_size=0.2, random_state=1)
+		self.train_df, self.test_df = train_test_split(self.data,train_size=0.95, test_size=0.05, random_state=1)
 		# self.train_df = self.data
 
 	# @pysnooper.snoop()
