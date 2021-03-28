@@ -1,4 +1,4 @@
-from model._base import basemodel
+from src.model._base import basemodel
 from transformers import BertTokenizer, TFBertForSequenceClassification
 import tensorflow as tf
 

@@ -1,5 +1,5 @@
-from tknzr._base import basetknzr
-from utils.tknzr import norm
+from src.tknzr._base import basetknzr
+from src.utils.tknzr import norm
 
 class chartknzr(basetknzr):
     def __init__(self):

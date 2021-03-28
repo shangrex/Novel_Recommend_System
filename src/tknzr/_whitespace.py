@@ -1,4 +1,4 @@
-from tknzr._base import basetknzr
+from src.tknzr._base import basetknzr
 
 
 class wstknzr(basetknzr):   

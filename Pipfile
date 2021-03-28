@@ -20,6 +20,7 @@ torch = "*"
 transformers = "*"
 pysnooper = "*"
 tensorboard = "*"
+plotly = "*"
 
 [dev-packages]
 

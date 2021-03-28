@@ -1,7 +1,7 @@
 from sklearn.feature_extraction.text import TfidfVectorizer, CountVectorizer
 from collections import Counter
 import typing 
-from utils.tknzr import norm
+from src.utils.tknzr import norm
 
 class basetknzr():    
 
