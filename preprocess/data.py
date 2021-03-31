@@ -1,5 +1,5 @@
 #make the novel data
-from read_file import XhtmlParser
+# from read_file import XhtmlParser
 from tqdm import tqdm
 import pandas as pd
 import os
@@ -126,4 +126,4 @@ poet['rank'] = (hot_data['baidu']+hot_data['so360']+hot_data['bing']+hot_data['b
 
 poet.reset_index(drop=True)
 print(len(poet))
-poet.to_csv('data/poet.csv')
+poet.to_csv('data/poet.csv', index=False)
