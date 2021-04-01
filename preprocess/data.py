@@ -73,11 +73,11 @@ for i in tqdm(range(255)):
     strains = strains.append(f)
 
 #used to be 57
-for i in tqdm(range(57)):
+for i in tqdm(range(58)):
     f = pd.read_json('data/json/poet.tang.{}.json'.format(i*1000))
     poet = poet.append(f)
 #read tang poet's strains
-for i in tqdm(range(57)):
+for i in tqdm(range(58)):
     f = pd.read_json('data/strains/json/poet.tang.{}.json'.format(i*1000))
     strains = strains.append(f)
 
@@ -111,7 +111,7 @@ for i in tqdm(range(255)):
     f = pd.read_json('data/rank/poet/poet.song.rank.{}.json'.format(i*1000))
     hot_data = hot_data.append(f)
 #0~57
-for i in tqdm(range(57)):
+for i in tqdm(range(58)):
     f = pd.read_json('data/rank/poet/poet.tang.rank.{}.json'.format(i*1000))
     hot_data = hot_data.append(f)
 

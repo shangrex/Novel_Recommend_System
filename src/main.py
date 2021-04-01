@@ -181,6 +181,7 @@ model = GPT2Model.from_pretrained('ckiplab/gpt2-base-chinese')
 tokenizer =  AutoTokenizer.from_pretrained('bert-base-chinese')
 gen_poem = chpoemdset_gen_author(tokenizer, "李白", 56)
 
+
 print(gen_poem[0])
 print(gen_poem.dtknz(gen_poem[0][0]))
 print(gen_poem.dtknz(gen_poem[0][1]))

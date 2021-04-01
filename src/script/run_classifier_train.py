@@ -51,6 +51,7 @@ def get_train(model, epoch, exp_name):
 
     model.train()
     total_loss = 0
+    count_x = 0
     optimizer = torch.optim.Adam(model.parameters(), lr=1e-5)
     for e in range(epoch):
         running_loss = 0
@@ -77,9 +78,11 @@ def get_train(model, epoch, exp_name):
 
 
             running_loss += loss.item()
+            writer.add_scalar('loss', running_loss, count_x)
+            count_x += 1
             count_loss += 1
         print(running_loss/count_loss)
-        writer.add_scalar('loss', running_loss/count_loss, e)
+        writer.add_scalar(' avg loss', running_loss/count_loss, e)
         total_loss += running_loss/count_loss
 
     writer.flush()

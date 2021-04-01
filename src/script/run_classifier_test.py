@@ -17,9 +17,13 @@ parser.add_argument('--model_path', type=str, required=False,
 parser.add_argument('--limit_number', type=int, required=True,
                     help='limit number for target dimension')
 
+parser.add_argument('--topk', type=int, required=False, default=1, 
+                    help="topk\'s accuracy")
+
 args = parser.parse_args()
 model_path = args.model_path
 limit_number = args.limit_number
+topk = args.topk
 
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
@@ -34,13 +38,12 @@ trainloader = DataLoader(poem_dset, batch_size=BATCH_SIZE,
                          collate_fn=poem_dset.create_mini_batch)
 
 
-# model = AutoModelForSequenceClassification.from_pretrained(model_path, num_labels=poem_dset.len_lbl())
-model = BertForMaskedLM.from_pretrained(model_path)
-# print(model)
+model = AutoModelForSequenceClassification.from_pretrained(model_path, num_labels=poem_dset.len_lbl())
+# model = BertForMaskedLM.from_pretrained(model_path)
 print("model")
 def get_valid_prediction(model):
     acc = 0
-    count = 0
+    # count = 0
     total = 0
     correct = 0
     model.eval()
@@ -51,43 +54,33 @@ def get_valid_prediction(model):
 
             token_tensor , mask_tensor, lbl_tensor = data[:3]
 
-            # print(token_tensor.shape)
-            # for i in token_tensor:
-            #     print(poem_dset.dtknz(i))
-            # print(mask_tensor.shape)
-            # print(lbl_tensor)
+    
             outputs = model(input_ids = token_tensor,
                             attention_mask = mask_tensor)
 
             logits = outputs[0]
-            _, pred = torch.max(logits.data, 1)
-            for i, j, k in zip(token_tensor, lbl_tensor, pred):
-                print(i)
-                print(poem_dset.dtknz(i))
-                print(k)
-                print("predict", torch.argmax(k))
-                # k = torch.zeros(300)
-                # k[torch.argmax(k)] = 1
-                # print(poem_dset.dauthor(k))
-                print(j)
-                print("ans", torch.argmax(j))
-                print(poem_dset.dauthor(j))
-                print(j.shape)   
-            
-            lbl_tensor = torch.argmax(lbl_tensor)
-            total += len(pred)
-            correct += (lbl_tensor == pred).sum().item()
+
+            for b in range(logits.data.shape[0]):
+                predict_values, predict_indexes = torch.topk(logits.data[b], topk)
+                target = torch.argmax(lbl_tensor[b])
+                # print("target", target)
+                for k in range(predict_indexes.shape[0]):
+                    index = predict_indexes[k].item()
+                    # print("top{}".format(k), index)
+                    if index == target:
+                        correct += 1
+
+            total += BATCH_SIZE
    
-            count +=1 
-            if  count > 3:
-                break
+            # count += 1 
+            # if  count > 1:
+            #     break
         print(correct, total)
         acc = correct / total
     return acc
 
 
 
-print(poem_dset.check_author())
 
 print("device:", device)
 model = model.to(device)
