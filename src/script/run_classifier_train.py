@@ -7,8 +7,8 @@ import os
 import argparse
 import torch 
 
-import src.dset
-
+# from src.dset import chpoemdset
+from src.dset._ch_poem import chpoemdset 
 
 
 parser = argparse.ArgumentParser(description='fill arguement')
@@ -31,7 +31,7 @@ device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 model_name = "bert-base-chinese"
 tokenizer =  AutoTokenizer.from_pretrained(model_name)
    
-poem_dset = src.dset.chpoemdset("train", tokenizer, limit_number)
+poem_dset = chpoemdset("train", tokenizer, limit_number)
 # x = poem_dset[0]
 # print(x[1])
 # print(len(poem_dset))
@@ -98,6 +98,6 @@ print("avg loss", avg_loss)
 
 
 
-model.save_pretrained('data/pretrain/{}/model/'.format(exp_name))
+model.save_pretrained('data/pretrain/{}/'.format(exp_name))
 # config.save('data/exp/{}/config.json'.format(exp_name))
 # print(os.path.dirname(os.path.dirname(__file__)))

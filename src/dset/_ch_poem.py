@@ -1,8 +1,7 @@
-from src.dset._base import basedset
 from sklearn.preprocessing import OneHotEncoder
 from sklearn.model_selection import train_test_split
-from transformers import AdamW
-from torch.nn import functional as F
+# from transformers import AdamW
+# from torch.nn import functional as F
 import pandas as pd
 from collections import Counter
 from torch.utils.data import Dataset
@@ -273,7 +272,7 @@ class chpoemdset_tag(Dataset):
 
 
 class chpoemdset_gen_author(Dataset):
-	def __init__(self, tokenizer, author, limit_number):
+	def __init__(self, tokenizer, author):
 		#read data
 		self.data = pd.read_csv('data/poet.csv')
 		#read stopwords
@@ -284,7 +283,6 @@ class chpoemdset_gen_author(Dataset):
 		#set data's len
 		self.len = len(self.data)
 		self.tknzr = tokenizer
-		self.limit_number = limit_number
 		#choose wanted author
 		filter_author = []
 		for i in self.data['author']:
@@ -300,8 +298,9 @@ class chpoemdset_gen_author(Dataset):
 		txt = self.data['paragraphs'].iloc[idx]
 
 		txt = self.tknzr.tokenize(txt)
-		seq_enc = []
-		seq_enc += txt
+		seq_enc = ["[CLS]"]
+		seq_enc += txt 
+		seq_enc += ["[SEP]"]
 		seq_enc = [i for i in seq_enc if i not in self.stopwords]
 
 
