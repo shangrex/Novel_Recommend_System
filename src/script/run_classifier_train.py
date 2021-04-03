@@ -19,17 +19,21 @@ parser.add_argument('--exp_name', type=str, required=True,
                     help='experiment\'s name')
 parser.add_argument('--limit_number', type=int, required=True,
                     help='limit number for target dimension')
+parser.add_argument('--model_name', type=str, required=False,
+                    help='pretrain\'s model name or model path',
+                    default='bert-base-chinese')
 
 args = parser.parse_args()
 epoch = args.epoch
 exp_name = args.exp_name
 limit_number = args.limit_number
+model_name = args.model_name
+
 
 
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
-model_name = "bert-base-chinese"
-tokenizer =  AutoTokenizer.from_pretrained(model_name)
+tokenizer =  AutoTokenizer.from_pretrained('bert-base-chinese')
    
 poem_dset = chpoemdset("train", tokenizer, limit_number)
 # x = poem_dset[0]
@@ -78,7 +82,7 @@ def get_train(model, epoch, exp_name):
 
 
             running_loss += loss.item()
-            writer.add_scalar('loss', running_loss, count_x)
+            writer.add_scalar('loss', loss.item(), count_x)
             count_x += 1
             count_loss += 1
         print(running_loss/count_loss)
