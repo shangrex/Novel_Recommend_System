@@ -83,6 +83,8 @@ for i in tqdm(range(58)):
 
 poet = pd.merge(poet, strains, on="id")
 
+# print(poet['paragraphs'].iloc[0][1])
+# print(poet['paragraphs'].dtype)
 
 #count poet length
 count = 0
@@ -127,3 +129,5 @@ poet['rank'] = (hot_data['baidu']+hot_data['so360']+hot_data['bing']+hot_data['b
 poet.reset_index(drop=True)
 print(len(poet))
 poet.to_csv('data/poet.csv', index=False)
+# print(type(poet['paragraphs'].iloc[0][1]))
+# print(poet['paragraphs'].dtype)

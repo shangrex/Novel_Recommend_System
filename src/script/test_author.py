@@ -55,7 +55,7 @@ for m in range(20):
     predict_indexes = predict_indexes[0]
     for i, j in zip(token_tensor, lbl_tensor):
         # print(i)
-        print(poem_dset.dtknz(i))
+        # print(poem_dset.dtknz(i))
         for k in range(topk):
             index = predict_indexes[k].item()
             print("predict index", index)
