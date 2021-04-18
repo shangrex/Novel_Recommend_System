@@ -1,7 +1,5 @@
 from sklearn.preprocessing import OneHotEncoder
 from sklearn.model_selection import train_test_split
-# from transformers import AdamW
-# from torch.nn import functional as F
 import pandas as pd
 from collections import Counter
 from torch.utils.data import Dataset
