@@ -1,3 +1,6 @@
+'''
+the script is to test the result from 'run_calssifier_train', and can test topk result.
+'''
 from transformers import *
 from torch.utils.data import DataLoader
 from tqdm import tqdm

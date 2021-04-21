@@ -1,5 +1,5 @@
 '''
-Train to predicted the poet's author
+the script is to return similar poet from the selected poet
 '''
 from torch.utils.data import DataLoader
 from tqdm import tqdm

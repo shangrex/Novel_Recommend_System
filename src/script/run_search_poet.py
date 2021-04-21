@@ -1,3 +1,6 @@
+'''
+Implement a search engine.
+'''
 import pandas as pd 
 import argparse
 

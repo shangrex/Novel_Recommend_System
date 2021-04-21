@@ -1,3 +1,6 @@
+'''
+the script is to find the unsupervised topic from the poet
+'''
 from sklearn.feature_extraction.text import CountVectorizer
 from sklearn.decomposition import LatentDirichletAllocation
 import pandas as pd 
@@ -27,8 +30,6 @@ exp_name = args.exp_name
 seed = args.seed
 
 filter_poet = pd.read_csv('data/poet.csv')
-#na_filter=True, na_values='[]'
-# filter_poet =  filter_poet.dropna()
 
 cv = CountVectorizer(max_df = max_df, min_df = min_df)
 dtm = cv.fit_transform(filter_poet['cut_parapraphs'])

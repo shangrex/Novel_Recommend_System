@@ -1,3 +1,6 @@
+'''
+To print out the predicted author and real author
+'''
 from transformers import *
 from torch.utils.data import DataLoader
 from tqdm import tqdm
