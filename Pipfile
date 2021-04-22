@@ -30,4 +30,7 @@ python_version = "3.8"
 [scripts]
 poet_test = "python -m src.script.run_classifier_test.py --model_path=data/pretrain/5 --limit_number=252 --topk=1"
 tensorboard = "cd data/exp/ && tensorboard --logdir 5.pth"
-poet_train = "python -m src.script.run_classifier_train.py --model_name=test --limit_number=252"
+poet_train_author = "python -m src.script.run_classifier_train.py --model_name=test --limit_number=252"
+poet_train_tag = "python -m src.script.run_find_topic_poet --num_com=1000 --exp_name=200_30 --min_df=30"
+poet_show_author = "python -m src.script.test_author --topk=3 --limit_number=252 --model_path=data/pretrain/5"
+poet_show_poet = ""
