@@ -1,5 +1,5 @@
 '''
-the script is to return similar poet from the selected poet
+the script is to return similar author from the selected poet
 '''
 from torch.utils.data import DataLoader
 from tqdm import tqdm
@@ -39,10 +39,7 @@ device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 tokenizer =  AutoTokenizer.from_pretrained('bert-base-chinese')
    
 poem_dset = chpoemdset("train", tokenizer, limit_number)
-# x = poem_dset[0]
-# print(x[1])
-# print(len(poem_dset))
-# print(poem_dset.dtknz(x[0]))
+
 
 BATCH_SIZE = 4
 trainloader = DataLoader(poem_dset, batch_size=BATCH_SIZE, 
@@ -106,5 +103,3 @@ print("avg loss", avg_loss)
 
 
 model.save_pretrained('data/pretrain/{}/'.format(exp_name))
-# config.save('data/exp/{}/config.json'.format(exp_name))
-# print(os.path.dirname(os.path.dirname(__file__)))

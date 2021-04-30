@@ -34,3 +34,4 @@ poet_train_author = "python -m src.script.run_classifier_train.py --model_name=t
 poet_train_tag = "python -m src.script.run_find_topic_poet --num_com=1000 --exp_name=200_30 --min_df=30"
 poet_show_author = "python -m src.script.test_author --topk=3 --limit_number=252 --model_path=data/pretrain/5"
 poet_show_poet = ""
+poet_run_feedback = "python -m src.script.run_feedback_poet --txt=國王"
