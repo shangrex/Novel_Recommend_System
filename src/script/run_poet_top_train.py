@@ -44,7 +44,7 @@ with open(f'data/topic/{exp_name}topic.pkl', 'wb') as f:
     topic_words = []
     for i,topic in enumerate(LDA.components_):
         print(f"TOP 10 WORDS PER TOPIC #{i}")
-        print([cv.get_feature_names()[index] for index in topic.argsort()[-10:]])
-        topic_words = [cv.get_feature_names()[index] for index in topic.argsort()[::-1]]
+        print([cv.get_feature_names()[index] for index in topic.argsort()[-20:]])
+        topic_words = [cv.get_feature_names()[index] for index in topic.argsort()[-20:]]
         rst[i] = topic_words
     pickle.dump(rst, f)
