@@ -1,6 +1,7 @@
 '''
 Implement a search engine.
 '''
+import pickle
 from tqdm import tqdm
 import pandas as pd 
 import argparse
@@ -32,6 +33,9 @@ for i in tqdm(range(len(poet))):
 print("=="*7+"searching paragraphs"+"==")
 rst_cnt = []
 for i in tqdm(range(len(poet))):
+    print(i)
+    print(poet['paragraphs'].iloc[i])
+    print(type(poet['paragraphs'].iloc[i]))
     check_count = 0
     for t in target:
         if t in poet['paragraphs'].iloc[i]:
@@ -52,8 +56,6 @@ for i in rst_cnt:
     for j, k in i.items():
         print(j, k)
 
-
-print("=="*7+"topic relative"+"==")
 
 
 

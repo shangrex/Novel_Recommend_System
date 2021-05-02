@@ -29,8 +29,13 @@ for i in tqdm(range(58)):
 
 poet = pd.merge(poet, strains, on="id")
 
-# print(poet['paragraphs'].iloc[0][1])
-# print(poet['paragraphs'].dtype)
+#transfer paragraphs from list to str
+print("=="*7+"transfer paragraphs to str"+"=="*7)
+for i in tqdm(range(len(poet))):
+    s = ""
+    for j in poet['paragraphs'].iloc[i]:
+        s += j
+    poet['paragraphs'].iloc[i] = s
 
 #count poet length
 print("=="*7+"counting paragraphs"+"=="*7)
@@ -78,7 +83,7 @@ print("=="*7+"dropping empty paragraphs"+"=="*7)
 #drop empty paragraphs
 empty_para = []
 for i in poet['paragraphs']:
-    if i == []:
+    if type(i) == float:
         empty_para.append(False)
     else:
         empty_para.append(True)
@@ -101,9 +106,6 @@ for i in tqdm(poet['paragraphs']):
 poet['cut_parapraphs'] = filter_poet
 
 print(poet.info())
-# print(len(poet['cut_parapraphs']))
 poet.reset_index()
 print(len(poet))
 poet.to_csv('data/poet.csv', index=False)
-# print(type(poet['paragraphs'].iloc[0][1]))
-# print(poet['paragraphs'].dtype)
