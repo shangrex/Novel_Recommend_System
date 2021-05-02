@@ -5,6 +5,7 @@ from torch.utils.data import DataLoader
 from tqdm import tqdm
 from transformers import *
 from torch.utils.tensorboard import SummaryWriter
+from sklearn.metrics.pairwise import cosine_similarity
 import tensorflow as tf
 import os
 import argparse
@@ -25,81 +26,50 @@ parser.add_argument('--limit_number', type=int, required=True,
 parser.add_argument('--model_name', type=str, required=False,
                     help='pretrain\'s model name or model path',
                     default='bert-base-chinese')
+parser.add_argument('--txt', type=str,  required=True, 
+                    default='the input sentenc to predcit')
 
 args = parser.parse_args()
-epoch = args.epoch
-exp_name = args.exp_name
-limit_number = args.limit_number
 model_name = args.model_name
-
-
-
-device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+txt = args.txt
 
 tokenizer =  AutoTokenizer.from_pretrained('bert-base-chinese')
-   
-poem_dset = chpoemdset("train", tokenizer, limit_number)
+
+model = AutoModelForSequenceClassification.from_pretrained(model_path)
+        
+poem_dset = chpoemdset("test", tokenizer, limit_number)
 
 
-BATCH_SIZE = 4
+BATCH_SIZE = 1
 trainloader = DataLoader(poem_dset, batch_size=BATCH_SIZE, 
-                         collate_fn=poem_dset.create_mini_batch)
+                         collate_fn=poem_dset.create_mini_batch
+                         ,shuffle=True)
+
+model.eval()
+
+for m in range(20):
+    print("test index: {}".format(m))
+    dataiter = iter(trainloader).next()
+
+    token_tensor , mask_tensor, lbl_tensor = dataiter[:3]
+
+    outputs = model(input_ids = token_tensor,
+                    attention_mask = mask_tensor)
 
 
-model = AutoModelForSequenceClassification.from_pretrained(model_name, num_labels=poem_dset.len_lbl())
-print(model)
-print("model")
-
-def get_train(model, epoch, exp_name):
-    writer = SummaryWriter('data/exp/{}.pth'.format(exp_name))
-
-    model.train()
-    total_loss = 0
-    count_x = 0
-    optimizer = torch.optim.Adam(model.parameters(), lr=1e-5)
-    for e in range(epoch):
-        running_loss = 0
-        count_loss = 0
-        for data in tqdm(trainloader):
-            data = [i.to(device) for i in data]
-            optimizer.zero_grad()
-
-            token_tensor , mask_tensor, lbl_tensor = data[:3]
-            # print(token_tensor.shape)
-            # print(lbl_tensor)
-            # print(lbl_tensor.shape)
-            lbl_tensor = torch.argmax(lbl_tensor, 1)
-            # print(lbl_tensor)
-            outputs = model(input_ids = token_tensor,
-                            attention_mask = mask_tensor,
-                            labels = lbl_tensor)
-
-            # print("optimizer start...")
-            loss = outputs[0]
-            # backward
-            loss.backward()
-            optimizer.step()
-
-
-            running_loss += loss.item()
-            writer.add_scalar('loss', loss.item(), count_x)
-            count_x += 1
-            count_loss += 1
-        print(running_loss/count_loss)
-        writer.add_scalar(' avg loss', running_loss/count_loss, e)
-        total_loss += running_loss/count_loss
-
-    writer.flush()
-    writer.close()
-    return total_loss / epoch
-
-
-print("trainning....")
-model = model.to(device)
-avg_loss = get_train(model, epoch, exp_name)
-print("avg loss", avg_loss)
-
-
-
-
-model.save_pretrained('data/pretrain/{}/'.format(exp_name))
+    logits = outputs[0]
+    predict_values, predict_indexes = torch.topk(logits.data, topk)
+    predict_indexes = predict_indexes[0]
+    for i, j in zip(token_tensor, lbl_tensor):
+        # print(i)
+        print(poem_dset.dtknz(i))
+        for k in range(topk):
+            index = predict_indexes[k].item()
+            print("predict index", index)
+            predict_author = torch.zeros(300)
+            predict_author[index] = 1
+            print("predict author", poem_dset.dauthor(predict_author))
+        # print(j)
+        print("ans", torch.argmax(j))
+        print(poem_dset.dauthor(j))
+                
