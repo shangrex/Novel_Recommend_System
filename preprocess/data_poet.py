@@ -79,16 +79,19 @@ poet['bing_en'] = hot_data['bing_en'].to_numpy()
 poet['google'] = hot_data['google'].to_numpy()
 poet['rank'] = (hot_data['baidu']+hot_data['so360']+hot_data['bing']+hot_data['bing_en']+hot_data['google']).to_numpy() 
 
+
+print("before filter empty", poet.info())
+
 print("=="*7+"dropping empty paragraphs"+"=="*7)
 #drop empty paragraphs
 empty_para = []
 for i in poet['paragraphs']:
-    if type(i) == float:
+    if i == "":
         empty_para.append(False)
     else:
         empty_para.append(True)
-    count += 1
 poet = poet.loc[empty_para]
+print("after filter empty", poet.info())
 
 print("=="*7+"tokenizing paragraphs"+"=="*7)
 #add tokenize paragraphs
@@ -105,7 +108,6 @@ for i in tqdm(poet['paragraphs']):
 
 poet['cut_parapraphs'] = filter_poet
 
-print(poet.info())
 poet.reset_index()
 print(len(poet))
 poet.to_csv('data/poet.csv', index=False)

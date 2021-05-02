@@ -31,10 +31,11 @@ python_version = "3.8"
 
 [scripts]
 poet_atr_test = "python -m src.script.run_poet_atr_test_all.py --model_path=data/pretrain/5 --limit_number=252 --topk=1"
-tensorboard = "tensorboard --logdir data/exp/5.pth"
 poet_atr_train = "python -m src.script.run_poet_atr_train.py --model_name=test --limit_number=252"
 poet_atr_show = "python -m src.script.run_poet_atr_test_sin --topk=3 --limit_number=252 --model_path=data/pretrain/5"
+poet_atr = "python -m src.script.run_poet_atr  --model_name=data/pretrain/5/ --limit_number=252 --txt=花間一壺酒，獨酌無相親。舉杯邀明月，對影成三人。月既不解飲，影徒隨我身。暫伴月將影，行樂須及春。我歌月徘徊，我舞影零亂。醒時同交歡，醉後各分散。永結無情遊，相期邈雲漢。"
+tensorboard = "tensorboard --logdir data/exp/5.pth"
 poet_cnt = "python -m src.script.run_poet_cnt --txt=國王"
 poet_cnt_train = "python -m src.script.run_poet_cnt_train "
-poet_topic_train = "python -m src.script.run_poet_top_train --num_com=1000 --exp_name=200_30 --min_df=30"
+poet_topic_train = "python -m src.script.run_poet_top_train --num_com=1000 --exp_name=1000_30 --min_df=30"
 poet_search = "python -m src.script.run_poet_search --find=\"李白\""
