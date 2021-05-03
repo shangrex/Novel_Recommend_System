@@ -17,14 +17,11 @@ import torch
 
 parser = argparse.ArgumentParser(description='fill arguement')
 
-parser.add_argument('--txt', type=str, required=True, 
-                    help='the input sentence')
 
 parser.add_argument('--topk', type=int, required=False, default=5, 
                     help='# of result')
 
 args = parser.parse_args()
-txt = args.txt
 topk = args.topk
 
 poet = pd.read_csv('data/poet.csv')
