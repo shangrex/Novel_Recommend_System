@@ -60,16 +60,18 @@ model = AutoModel.from_pretrained(model_name)
 
 
 rst = {}
+rst_index = {}
 
 print("=="*7+"transfering to vector"+"=="*7)
 for i in tqdm(range(len(poet))):
     txt = tokenizer.tokenize(poet['paragraphs'].iloc[i])
 
     seq_enc = tokenizer.convert_tokens_to_ids(txt)
-
-    tmp_tensor = torch.tensor([seq_enc])
-    tmp_tensor = trim_sequence(tmp_tensor, 200)
-
+    tmp_tensor = torch.zeros(1, 200, dtype=torch.long)
+    if len(seq_enc) > 200:
+        tmp_tensor[0] = torch.tensor(seq_enc)[:200]
+    else:
+        tmp_tensor[0][:len(seq_enc)] = torch.tensor(seq_enc)
     mask_tensor = torch.zeros(tmp_tensor.shape, dtype=torch.long)
     mask_tensor = mask_tensor.masked_fill(tmp_tensor != 0, 1)
 
@@ -79,6 +81,9 @@ for i in tqdm(range(len(poet))):
     predict = torch.mean(predict, dim=1).squeeze()
 
     rst[poet['id'].iloc[i]] = predict
+    rst[i] = predict
 
-rst = pd.DataFrame(rst, index=False)
-rst.save_csv(args.output)
+rst = pd.DataFrame(rst)
+rst_index = pd.DataFrame(rst_index)
+rst.to_csv(args.output)
+rst_index.to_csv(args.output+'index')
