@@ -1,5 +1,6 @@
 import argparse
 from google_images_download import google_images_download
+from PIL import Image
 
 
 
@@ -24,6 +25,12 @@ txt = args.find
 response = google_images_download.googleimagesdownload()
 arguments = {"keywords": txt,"limit": args.min,"print_urls":True}
 absolute_image_paths = response.download(arguments)
-print("images paths", absolute_image_paths)
+print("images paths", absolute_image_paths[0].values())
 
-
+for i in absolute_image_paths[0].values():
+    for j in i:
+        print(j)
+        img = Image.open(i)
+        plt.figure("dog")
+        plt.imshow(img)
+        plt.show()
