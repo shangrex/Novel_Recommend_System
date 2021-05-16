@@ -30,6 +30,16 @@ for i in tqdm(range(len(poet))):
         if poet['author'].iloc[i] == t:
             rst_atr.append({t:poet['paragraphs'].iloc[i]})
 
+rst_tit = []
+print("=="*7+"searching title"+"=="*7)
+for i in tqdm(range(len(poet))):
+    for t in target:
+        if type(poet['title'].iloc[i]) == float:
+            continue
+        if t in poet['title'].iloc[i]:
+            rst_tit.append({poet['title'].iloc[i]+" "+poet['author'].iloc[i]:poet['paragraphs'].iloc[i]})
+
+
 print("=="*7+"searching paragraphs"+"==")
 rst_cnt = []
 for i in tqdm(range(len(poet))):
@@ -44,6 +54,10 @@ sorted(rst_cnt, key=lambda x: x['match_count'])
 
 print("=="*7+"result author"+"=="*7)
 for i in rst_atr:
+    print(i)
+
+print("=="*7+"result title"+"=="*7)
+for i in rst_tit:
     print(i)
 
 print("=="*7+"result content"+"=="*7)
