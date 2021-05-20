@@ -3,9 +3,11 @@ Use Spacy (Word Embedding) to Recommend Poet
 '''
 import spacy
 from spacy.lang.zh.examples import sentences 
+from sklearn.metrics.pairwise import cosine_similarity
 import argparse
 import pandas as pd
 import numpy as np
+import pickle
 from tqdm import tqdm
 
 
@@ -25,15 +27,19 @@ args = parser.parse_args()
 
 topk = args.topk
 
+
+f = open(f'data/pretrain/spa_embedding.pkl', 'rb')
+spa_emb = pickle.load(f)
+
 poet = pd.read_csv('data/poet.csv')
 
 doc = nlp(args.txt)
 
 rst = []
 
-for i in tqdm(range(len(poet))):
-    tmp = nlp(poet['paragraphs'].iloc[i])
-    ftmp = doc.similarity(tmp)
+
+for i in tqdm(spa_emb):
+    ftmp = cosine_similarity(i[3])
     rst.append([ftmp, poet['title'].iloc[i], poet['author'].iloc[i], poet['paragraphs'].iloc[i]])
 
 

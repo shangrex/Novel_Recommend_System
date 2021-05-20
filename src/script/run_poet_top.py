@@ -40,9 +40,9 @@ for i, j in top_dict.items():
             if k in t:
                 match_count += 1
     rst[i] = match_count
-    match_count = 0
+    # match_count = 0
 
-sorted(rst.items(), key=lambda item: item[1])
+sorted(rst.items(), key=lambda item: item[1], reverse=True)
 
 count = 0
 for i, j in rst.items():
