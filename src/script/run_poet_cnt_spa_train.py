@@ -21,7 +21,7 @@ rst = []
 
 for i in tqdm(range(len(poet))):
     tmp = nlp(poet['paragraphs'].iloc[i])
-    ftmp = tmp.vector()
+    ftmp = tmp.vector
     rst.append([poet['title'].iloc[i], poet['author'].iloc[i], poet['paragraphs'].iloc[i], ftmp])
 
 

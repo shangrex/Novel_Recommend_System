@@ -1,9 +1,11 @@
 import spacy
 from spacy.lang.zh.examples import sentences 
+from sklearn.metrics.pairwise import cosine_similarity
 import argparse
 import pandas as pd
 import numpy as np
 from tqdm import tqdm
+import pickle
 
 
 nlp = spacy.load("zh_core_web_lg")
@@ -22,15 +24,20 @@ args = parser.parse_args()
 
 topk = args.topk
 
-nov = pd.read_csv('data/mingyan_new.csv')
+nov = pd.read_csv('data/novel.csv')
+
+
+f = open(f'data/pretrain/spa_nov_emb.pkl', 'rb')
+spa_emb = pickle.load(f)
+
+doc = nlp(args.txt)
 
 doc = nlp(args.txt)
 
 rst = []
 
 for i in tqdm(range(len(nov))):
-    tmp = nlp(nov['paragraphs'].iloc[i])
-    ftmp = doc.similarity(tmp)
+    ftmp = cosine_similarity([spa_emb[i][3]], [doc.vector])
     rst.append([ftmp, nov['name'].iloc[i], nov['author'].iloc[i], nov['paragraphs'].iloc[i]])
 
 

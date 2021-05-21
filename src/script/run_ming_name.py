@@ -1,10 +1,10 @@
 import spacy
 from spacy.lang.zh.examples import sentences 
+from sklearn.metrics.pairwise import cosine_similarity
 import argparse
 import pandas as pd
-import pickle
-from sklearn.metrics.pairwise import cosine_similarity
 import numpy as np
+import pickle
 from tqdm import tqdm
 
 
@@ -17,7 +17,7 @@ parser.add_argument('--txt', type=str, required=True,
                     help='the word for searching')
 
 parser.add_argument('--topk', type=int, required=False,
-                    default=10,
+                    default=50,
                     help='# of results')
 
 args = parser.parse_args()
@@ -25,6 +25,7 @@ args = parser.parse_args()
 topk = args.topk
 
 ming = pd.read_csv('data/mingyan_new.csv')
+
 
 
 f = open(f'data/pretrain/spa_ming_emb.pkl', 'rb')
@@ -41,7 +42,15 @@ for i in tqdm(range(len(spa_emb))):
 
 rst = sorted(rst, key=lambda i : i[0], reverse=True)
 
-for i in range(topk):
-    print(rst[i][0][0][0])
-    print(rst[i][1:])
 
+cnt_rst = {}
+for i in range(topk):
+    if rst[i][1] in cnt_rst:
+        cnt_rst[rst[i][1]] += 1
+    else:
+        cnt_rst[rst[i][1]] = 1
+        
+cnt_rst = sorted(cnt_rst.items(), key=lambda i: i[1], reverse=True)
+
+for i in cnt_rst:
+    print(i)

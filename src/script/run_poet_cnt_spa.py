@@ -32,15 +32,16 @@ f = open(f'data/pretrain/spa_embedding.pkl', 'rb')
 spa_emb = pickle.load(f)
 
 poet = pd.read_csv('data/poet.csv')
-
 doc = nlp(args.txt)
 
 rst = []
 
 
-for i in tqdm(spa_emb):
-    ftmp = cosine_similarity(i[3])
-    rst.append([ftmp, poet['title'].iloc[i], poet['author'].iloc[i], poet['paragraphs'].iloc[i]])
+for i in tqdm(range(len(spa_emb))):
+    # print(i[3].dtype)
+    # print(doc.vector.dtype)
+    ftmp = cosine_similarity([spa_emb[i][3]], [doc.vector])
+    rst.append([ftmp[0][0], poet['title'].iloc[i], poet['author'].iloc[i], poet['paragraphs'].iloc[i]])
 
 
 rst = sorted(rst, key=lambda i : i[0], reverse=True)
