@@ -72,15 +72,5 @@ for k in range(topk):
     print("predict author", poem_dset.dauthor(predict_author))
 
 
-# for i, j in zip(token_tensor, lbl_tensor):
-#     print(poem_dset.dtknz(i))
-#     for k in range(topk):
-#         index = predict_indexes[k].item()
-#         print("predict index", index)
-#         predict_author = torch.zeros(300)
-#         predict_author[index] = 1
-#         print("predict author", poem_dset.dauthor(predict_author))
-#     # print(j)
-#     print("ans", torch.argmax(j))
-#     print(poem_dset.dauthor(j))
+
                 

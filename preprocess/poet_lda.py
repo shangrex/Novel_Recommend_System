@@ -6,6 +6,10 @@ poet = pd.read_csv('data/poet.csv')
 
 f = open('data/topic/1000_10topic.pkl', 'rb')
 top_dict = pickle.load(f)
+#stopwords
+st = ['\"', '[', ']', '\'']
+
+
 for i in tqdm(range(len(poet))):
     match_count = 0
     count = 0
@@ -23,8 +27,10 @@ for i in tqdm(range(len(poet))):
         poet['tags'].iloc[i] = tmp
     elif type(poet['tags'].iloc[i]) == list:
         poet['tags'].iloc[i] += tmp
+        print(poet['tags'].iloc[i])
     elif type(poet['tags'].iloc[i]) == str:
-        poet['tags'].iloc[i] = list(poet['tags'].iloc[i])+tmp
+        x = [i for i in poet['tags'].iloc[i] if i not in st]
+        poet['tags'].iloc[i] = x+tmp
     else:
         print(type(poet['tags'].iloc[i]))
         print(poet['tags'].iloc[i])

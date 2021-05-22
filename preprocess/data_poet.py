@@ -109,7 +109,11 @@ for i in tqdm(poet['paragraphs']):
 
 poet['cut_parapraphs'] = filter_poet
 
-
+print("=="*7+"concating paragraphs"+"=="*7)
+cat_poet = []
+for i in tqdm(range(len(poet['paragraphs']))):
+    cat_poet.append("".join(poet['paragraphs'].iloc[i]))
+poet['cat_paragraphs'] = cat_poet
 
 poet.reset_index()
 print(len(poet))
